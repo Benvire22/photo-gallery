@@ -13,11 +13,15 @@ photosRouter.get('/', authSimple, async (req: RequestWithUser, res, next) => {
     const currentUser = req.user;
     const { user } = req.query;
 
-    if (currentUser && user !== '') {
+    if (user !== '') {
+      if (!mongoose.isValidObjectId(user)) {
+        return res.status(400).send({ error: 'Invalid user ID!' });
+      }
+
       const photos = await Photo.find(
-        currentUser
-          ? { user: currentUser._id }
-          : { isPublished: true }).populate('user', '_id displayName');
+        currentUser?._id === user
+          ? { user: currentUser }
+          : { user, isPublished: true }).populate('user', '_id displayName');
 
       return res.send(photos);
     }
@@ -89,7 +93,7 @@ photosRouter.patch('/:id/togglePublished', auth, permit('admin'), async (req: Re
   }
 });
 
-photosRouter.delete('/:id', auth, permit('admin'), async (req: RequestWithUser, res, next) => {
+photosRouter.delete('/:id', auth, permit('admin', 'user'), async (req: RequestWithUser, res, next) => {
   try {
     const user = req.user;
 
@@ -101,8 +105,20 @@ photosRouter.delete('/:id', auth, permit('admin'), async (req: RequestWithUser, 
       return res.status(400).send({ error: 'Invalid photo ID!' });
     }
 
-    const deletedCocktail = await Photo.findByIdAndDelete(req.params.id);
+    if (user.role === 'user') {
+      const deletedCocktail = await Photo.findOneAndDelete({
+        _id: req.params.id,
+        user: req.user,
+      });
 
+      if (!deletedCocktail) {
+        return res.status(400).send({ error: 'Photo not found!' });
+      }
+
+      return res.send({ message: 'Photo deleted successfully!' });
+    }
+
+    const deletedCocktail = await Photo.findByIdAndDelete(req.params.id);
 
     if (!deletedCocktail) {
       return res.status(400).send({ error: 'Photo not found!' });
