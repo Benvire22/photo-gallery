@@ -32,7 +32,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         {user.displayName}
       </Button>
       <Menu open={isOpen} onClose={handleClose} anchorEl={anchorEl} keepMounted>
-        <MenuItem onClick={handleClose} component={NavLink} to="/photos/users">
+        <MenuItem onClick={handleClose} component={NavLink} to={`/user-gallery/${user._id}`}>
           Show my gallery
         </MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>

@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { GlobalError, User, ValidationError } from '../../types';
+import { GalleryAuthor, GlobalError, User, ValidationError } from '../../types';
 import { googleLogin, login, register } from './usersThunks';
 
 interface UsersState {
   user: User | null;
   registerLoading: boolean;
+  galleryAuthor: GalleryAuthor | null;
   registerError: ValidationError | null;
   loginLoading: boolean;
   loginError: GlobalError | null;
@@ -13,6 +14,7 @@ interface UsersState {
 const initialState: UsersState = {
   user: null,
   registerLoading: false,
+  galleryAuthor: null,
   registerError: null,
   loginLoading: false,
   loginError: null,

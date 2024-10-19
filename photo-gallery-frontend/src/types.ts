@@ -34,6 +34,11 @@ export interface User {
   role: string;
 }
 
+export interface GalleryAuthor {
+  _id: string;
+  displayName: string;
+}
+
 export interface ValidationError {
   errors: {
     [key: string]: {

@@ -80,10 +80,10 @@ export const gallerySlice = createSlice({
     selectPhotos: (state) => state.photos,
     selectFetchingPhotos: (state) => state.fetchingPhotos,
     selectErrorFetchingPhotos: (state) => state.errorFetchingPhotos,
-    selectCreatingCocktail: (state) => state.isCreating,
-    selectErrorCreatingCocktail: (state) => state.errorCreating,
-    selectPublishingCocktail: (state) => state.isPublishing,
-    selectDeletingCocktail: (state) => state.isDeleting,
+    selectCreatingPhoto: (state) => state.isCreating,
+    selectErrorCreatingPhoto: (state) => state.errorCreating,
+    selectPublishingPhoto: (state) => state.isPublishing,
+    selectDeletingPhoto: (state) => state.isDeleting,
   },
 });
 
@@ -93,8 +93,8 @@ export const {
   selectPhotos,
   selectFetchingPhotos,
   selectErrorFetchingPhotos,
-  selectCreatingCocktail,
-  selectErrorCreatingCocktail,
-  selectPublishingCocktail,
-  selectDeletingCocktail,
+  selectCreatingPhoto,
+  selectErrorCreatingPhoto,
+  selectPublishingPhoto,
+  selectDeletingPhoto,
 } = gallerySlice.selectors;

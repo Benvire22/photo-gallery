@@ -28,11 +28,9 @@ const App = () => {
             }
           />
           <Route
-            path="/cocktails/user-gallery/:userId"
+            path="/user-gallery/:userId"
             element={
-              <ProtectedRoute isAllowed={user && (user.role === 'user' || user.role === 'admin')}>
-                <Gallery />
-              </ProtectedRoute>
+              <Gallery />
             }
           />
           <Route path="/register" element={<Register />} />
