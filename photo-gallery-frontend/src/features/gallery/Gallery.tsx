@@ -1,6 +1,6 @@
 import { Alert, Button, CircularProgress, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectUser } from '../users/usersSlice';
 import { Link, useParams } from 'react-router-dom';
@@ -8,6 +8,8 @@ import { selectFetchingPhotos, selectPhotos } from './gallerySlice';
 import { fetchPhotos } from './galleryThunks';
 import PhotoItem from './components/PhotoItem';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ImageModal from '../../UI/ImageModal/ImageModal';
+import { Photo } from '../../types';
 
 const Gallery = () => {
   const user = useAppSelector(selectUser);
@@ -15,6 +17,20 @@ const Gallery = () => {
   const isFetching = useAppSelector(selectFetchingPhotos);
   const dispatch = useAppDispatch();
   const { userId } = useParams();
+
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [photo, setPhoto] = useState<Photo | null>(null);
+
+  const handleClose = () => {
+    setOpenModal(false);
+    setPhoto(null);
+  };
+  const handelOpen = () => setOpenModal(true);
+
+  const showPhoto = (photo: Photo) => {
+    setPhoto(photo);
+    handelOpen();
+  };
 
   useEffect(() => {
     try {
@@ -51,6 +67,7 @@ const Gallery = () => {
             image={photo.image}
             isPublished={photo.isPublished}
             author={photo.user}
+            showPhoto={() => showPhoto(photo)}
             user={user}
           />
         );
@@ -63,6 +80,7 @@ const Gallery = () => {
             image={photo.image}
             isPublished={photo.isPublished}
             author={photo.user}
+            showPhoto={() => showPhoto(photo)}
             user={user}
           />
         );
@@ -71,23 +89,26 @@ const Gallery = () => {
   }
 
   return (
-    <Grid container direction="column" spacing={2}>
+    <>
       <Grid container direction="column" spacing={2}>
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Grid>
-            <Typography variant="h3">{userId ? `Author's gallery` : 'Photo Gallery'}</Typography>
+        <Grid container direction="column" spacing={2}>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <Grid>
+              <Typography variant="h3">{userId ? `Author's gallery` : 'Photo Gallery'}</Typography>
+            </Grid>
+            {userId && (
+              <Button variant="text" startIcon={<ArrowBackIcon />} component={Link} to="/">
+                Back to all galleries
+              </Button>
+            )}
           </Grid>
-          {userId && (
-            <Button variant="text" startIcon={<ArrowBackIcon />} component={Link} to="/">
-              Back to all galleries
-            </Button>
-          )}
+        </Grid>
+        <Grid container spacing={5} justifyContent="center">
+          {content}
         </Grid>
       </Grid>
-      <Grid container spacing={5} justifyContent="center">
-        {content}
-      </Grid>
-    </Grid>
+      <ImageModal isOpen={openModal} photo={photo} onClose={handleClose} onOpen={handelOpen} />
+    </>
   );
 };
 
