@@ -46,7 +46,7 @@ const PhotoItem: React.FC<Props> = ({ id, title, author, image, user, showPhoto 
 
   return (
     <Grid sx={{ width: '300px' }}>
-      <Card sx={{ height: '100%' }}>
+      <Card sx={{ height: '100%', pb: 2 }}>
         <ImageCardMedia sx={{ cursor: 'pointer' }} image={`${API_URL}/${image}`} title={title} onClick={showPhoto} />
         <CardContent>
           <Typography sx={{ cursor: 'pointer' }} gutterBottom variant="h6" onClick={showPhoto}>{title}</Typography>
@@ -54,8 +54,12 @@ const PhotoItem: React.FC<Props> = ({ id, title, author, image, user, showPhoto 
         <CardActions>
           <Grid container spacing={2}>
             {author._id !== userId && (
-              <IconButton sx={{ fontSize: 14, borderRadius: '20px', width: '100%' }} component={Link}
-                          to={`/user-gallery/${author._id}`}>
+              <IconButton
+                sx={{ fontSize: 13, borderRadius: '20px', width: '100%', border: '1px solid lightblue' }}
+                component={Link}
+                color="primary"
+                to={`/user-gallery/${author._id}`}
+              >
                 <span>Show {author.displayName}'s gallery</span>
                 <ArrowForwardIcon />
               </IconButton>
@@ -69,7 +73,7 @@ const PhotoItem: React.FC<Props> = ({ id, title, author, image, user, showPhoto 
                 loading={isDeleting}
                 loadingPosition="end"
                 endIcon={<DeleteForeverIcon />}
-                variant="outlined"
+                variant="contained"
               >
                 <span>delete Photo</span>
               </LoadingButton>

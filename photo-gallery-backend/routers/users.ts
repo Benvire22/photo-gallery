@@ -7,6 +7,26 @@ import config from '../config';
 const usersRouter = express.Router();
 const googleClient = new OAuth2Client(config.google.clientID);
 
+usersRouter.get('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params as { id: string };
+
+    const user = await User.findOne({ _id: id });
+
+    if (!user) {
+      return res.status(400).send({ error: 'User not found!' });
+    }
+
+    return res.send({
+      _id: user._id,
+      displayName: user.displayName,
+    });
+
+  } catch (e) {
+    return next();
+  }
+});
+
 usersRouter.post('/', async (req, res, next) => {
   try {
     const user = new User({

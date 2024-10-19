@@ -3,7 +3,7 @@ import cors from 'cors';
 import config from './config';
 import mongoose from 'mongoose';
 import usersRouter from './routers/users';
-import photosRouter from "./routers/photos";
+import photosRouter from './routers/photos';
 
 const app = express();
 const port = 8000;

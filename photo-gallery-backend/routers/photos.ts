@@ -11,13 +11,11 @@ photosRouter.get('/', async (req: RequestWithUser, res, next) => {
   try {
     const { user } = req.query;
 
-
     const photos = await Photo.find(
       user
         ? { user }
         : {}).populate('user', '_id displayName');
 
-    console.log(photos);
     return res.send(photos);
   } catch (e) {
     return next(e);

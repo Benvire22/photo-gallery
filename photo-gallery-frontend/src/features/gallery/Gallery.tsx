@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectUser } from '../users/usersSlice';
 import { Link, useParams } from 'react-router-dom';
-import { selectFetchingPhotos, selectPhotos } from './gallerySlice';
-import { fetchPhotos } from './galleryThunks';
+import { selectFetchingGalleryAuthor, selectFetchingPhotos, selectGalleryAuthor, selectPhotos } from './gallerySlice';
+import { fetchPhotos, getGalleryAuthor } from './galleryThunks';
 import PhotoItem from './components/PhotoItem';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ImageModal from '../../UI/ImageModal/ImageModal';
@@ -17,9 +17,24 @@ const Gallery = () => {
   const isFetching = useAppSelector(selectFetchingPhotos);
   const dispatch = useAppDispatch();
   const { userId } = useParams();
+  const galleryAuthor = useAppSelector(selectGalleryAuthor);
+  const fetchingAuthor = useAppSelector(selectFetchingGalleryAuthor);
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [photo, setPhoto] = useState<Photo | null>(null);
+
+  useEffect(() => {
+    try {
+      if (userId) {
+        void dispatch(fetchPhotos(userId)).unwrap();
+        void dispatch(getGalleryAuthor(userId));
+      } else {
+        void dispatch(fetchPhotos()).unwrap();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, [dispatch, userId]);
 
   const handleClose = () => {
     setOpenModal(false);
@@ -31,18 +46,6 @@ const Gallery = () => {
     setPhoto(photo);
     handelOpen();
   };
-
-  useEffect(() => {
-    try {
-      if (userId) {
-        void dispatch(fetchPhotos(userId)).unwrap();
-      } else {
-        void dispatch(fetchPhotos()).unwrap();
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }, [dispatch, userId]);
 
   let content: React.ReactNode = (
     <Alert severity="info" sx={{ width: '100%' }}>
@@ -76,7 +79,13 @@ const Gallery = () => {
         <Grid container direction="column" spacing={2}>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid>
-              <Typography variant="h3">{userId ? `Author's gallery` : 'Photo Gallery'}</Typography>
+              {userId && fetchingAuthor ? (
+                <CircularProgress />
+              ) : (
+                <Typography variant="h3">
+                  {galleryAuthor && userId ? `${galleryAuthor.displayName}'s gallery` : 'Photo Gallery'}
+                </Typography>
+              )}
             </Grid>
             {userId && (
               <Button variant="text" startIcon={<ArrowBackIcon />} component={Link} to="/">

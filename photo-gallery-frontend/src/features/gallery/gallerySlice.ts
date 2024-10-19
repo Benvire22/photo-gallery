@@ -1,11 +1,13 @@
-import { GlobalError, Photo } from '../../types';
+import { GalleryAuthor, GlobalError, Photo } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { createPhoto, deletePhoto, fetchPhotos } from './galleryThunks';
+import { createPhoto, deletePhoto, fetchPhotos, getGalleryAuthor } from './galleryThunks';
 
 export interface GalleryState {
   photos: Photo[];
   fetchingPhotos: boolean;
   errorFetchingPhotos: boolean;
+  galleryAuthor: GalleryAuthor | null;
+  fetchAuthor: boolean;
   isCreating: boolean;
   errorCreating: null | GlobalError;
   isDeleting: boolean;
@@ -15,6 +17,8 @@ export const initialState: GalleryState = {
   photos: [],
   fetchingPhotos: false,
   errorFetchingPhotos: false,
+  galleryAuthor: null,
+  fetchAuthor: false,
   isCreating: false,
   errorCreating: null,
   isDeleting: false,
@@ -30,13 +34,25 @@ export const gallerySlice = createSlice({
         state.fetchingPhotos = true;
         state.errorFetchingPhotos = false;
       })
-      .addCase(fetchPhotos.fulfilled, (state, { payload: cocktails }) => {
-        state.photos = cocktails;
+      .addCase(fetchPhotos.fulfilled, (state, { payload: photos }) => {
+        state.photos = photos;
         state.fetchingPhotos = false;
       })
       .addCase(fetchPhotos.rejected, (state) => {
         state.fetchingPhotos = false;
         state.errorFetchingPhotos = true;
+      });
+
+    builder
+      .addCase(getGalleryAuthor.pending, (state) => {
+        state.fetchAuthor = true;
+      })
+      .addCase(getGalleryAuthor.fulfilled, (state, { payload: author }) => {
+        state.galleryAuthor = author;
+        state.fetchAuthor = false;
+      })
+      .addCase(getGalleryAuthor.rejected, (state) => {
+        state.fetchAuthor = false;
       });
 
     builder
@@ -67,6 +83,8 @@ export const gallerySlice = createSlice({
     selectPhotos: (state) => state.photos,
     selectFetchingPhotos: (state) => state.fetchingPhotos,
     selectErrorFetchingPhotos: (state) => state.errorFetchingPhotos,
+    selectGalleryAuthor: (state) => state.galleryAuthor,
+    selectFetchingGalleryAuthor: (state) => state.fetchAuthor,
     selectCreatingPhoto: (state) => state.isCreating,
     selectErrorCreatingPhoto: (state) => state.errorCreating,
     selectDeletingPhoto: (state) => state.isDeleting,
@@ -78,8 +96,9 @@ export const galleryReducer = gallerySlice.reducer;
 export const {
   selectPhotos,
   selectFetchingPhotos,
-  selectErrorFetchingPhotos,
   selectCreatingPhoto,
+  selectGalleryAuthor,
+  selectFetchingGalleryAuthor,
   selectErrorCreatingPhoto,
   selectDeletingPhoto,
 } = gallerySlice.selectors;

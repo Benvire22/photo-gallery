@@ -30,20 +30,20 @@ const run = async () => {
 
   await Photo.create({
     user: admin,
-    title: 'adminpic',
+    title: 'Cat',
     image: 'fixtures/admin-avatar.jpg',
   }, {
     user: user,
-    title: 'Userpic',
-    image: 'fixtures/admin-avatar.jpg',
+    title: 'JABAS RULES YEAH',
+    image: 'fixtures/jabas-pic.webp',
   }, {
     user: user,
-    title: 'userPic2',
-    image: 'fixtures/admin-avatar.jpg',
+    title: 'The little snakie!',
+    image: 'fixtures/snake-pic.jpg',
   }, {
     user: admin,
-    title: 'adminpic2',
-    image: 'fixtures/admin-avatar.jpg',
+    title: 'MORE CATS',
+    image: 'fixtures/cat-pic.jpg',
   });
 
   await db.close();

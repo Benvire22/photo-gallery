@@ -1,7 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { GlobalError, Photo, PhotoMutation } from '../../types';
+import { GalleryAuthor, GlobalError, Photo, PhotoMutation } from '../../types';
 import axiosApi from '../../axiosApi';
 import { isAxiosError } from 'axios';
+
+export const getGalleryAuthor = createAsyncThunk<GalleryAuthor | null, string>(
+  'gallery/getGalleryAuthor',
+  async (id) => {
+    const { data: author } = await axiosApi.get<GalleryAuthor>(`/users/${id}`);
+
+    return author;
+  },
+);
 
 export const fetchPhotos = createAsyncThunk<Photo[], string | undefined>('gallery/fetchPhotos', async (userId = '') => {
   const { data: photos } = await axiosApi.get<Photo[]>(`/photos?user=${userId}`);
