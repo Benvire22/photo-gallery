@@ -46,7 +46,7 @@ const PostForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
   };
 
   return (
-    <Grid container direction='column' spacing={2} component='form' onSubmit={submitFormHandler}>
+    <Grid container px={10} direction="column" spacing={2} component="form" onSubmit={submitFormHandler}>
       {error && (
         <Alert severity="error" sx={{ mt: 3 }}>
           {error.error}
@@ -55,27 +55,27 @@ const PostForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
       <Grid>
         <TextField
           required
-          label='Title'
-          id='title'
-          name='title'
+          label="Title"
+          id="title"
+          name="title"
           value={state.title}
           onChange={inputChangeHandler}
         />
       </Grid>
       <Grid>
         <FileInput
-          label='Image'
-          name='image'
+          label="Image"
+          name="image"
           onChange={fileInputChangeHandler}
         />
       </Grid>
       <Grid>
         <LoadingButton
-          type='submit'
+          type="submit"
           loading={isLoading}
-          loadingPosition='start'
+          loadingPosition="start"
           startIcon={<SaveIcon />}
-          variant='contained'
+          variant="contained"
         >
           <span>create photo</span>
         </LoadingButton>

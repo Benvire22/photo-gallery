@@ -78,7 +78,7 @@ const Gallery = () => {
       <Grid container direction="column" spacing={2}>
         <Grid container direction="column" spacing={2}>
           <Grid container justifyContent="space-between" alignItems="center">
-            <Grid>
+            <Grid marginBottom={4}>
               {userId && fetchingAuthor ? (
                 <CircularProgress />
               ) : (
@@ -94,7 +94,7 @@ const Gallery = () => {
             )}
           </Grid>
         </Grid>
-        <Grid container spacing={5}>
+        <Grid container spacing={3} justifyContent="space-evenly">
           {content}
         </Grid>
       </Grid>

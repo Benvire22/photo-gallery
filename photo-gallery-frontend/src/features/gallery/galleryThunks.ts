@@ -36,7 +36,7 @@ export const createPhoto = createAsyncThunk<void, PhotoMutation, {
 
     await axiosApi.post(`/photos/`, formData);
   } catch (e) {
-    if (isAxiosError(e) && e.response && e.response.status === 401) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data);
     }
 

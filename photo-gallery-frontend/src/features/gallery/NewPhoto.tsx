@@ -22,7 +22,7 @@ const NewPhoto = () => {
 
   return (
     <>
-      <Typography variant="h4" sx={{ mb: 2 }}>New Photo</Typography>
+      <Typography variant="h3" sx={{ mb: 2 }}>New Photo</Typography>
       <PhotoForm
         onSubmit={onFormSubmit}
         isLoading={isCreating}

@@ -45,11 +45,11 @@ const PhotoItem: React.FC<Props> = ({ id, title, author, image, user, showPhoto 
   };
 
   return (
-    <Grid sx={{ width: '300px' }}>
+    <Grid sx={{ width: '320px' }}>
       <Card sx={{ height: '100%', pb: 2 }}>
         <ImageCardMedia sx={{ cursor: 'pointer' }} image={`${API_URL}/${image}`} title={title} onClick={showPhoto} />
         <CardContent>
-          <Typography sx={{ cursor: 'pointer' }} gutterBottom variant="h6" onClick={showPhoto}>{title}</Typography>
+          <Typography sx={{ cursor: 'pointer' }} gutterBottom variant="body1" onClick={showPhoto}>{title}</Typography>
         </CardContent>
         <CardActions>
           <Grid container spacing={2}>

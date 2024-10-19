@@ -28,7 +28,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       <Button onClick={handleClose} color="inherit" component={NavLink} to="/photos/new">
         add new photo
       </Button>
-      <Button color="inherit" sx={{ ml: 10, textTransform: 'none' }} onClick={handleClick}>
+      <Button color="inherit" sx={{ ml: 5, textTransform: 'none' }} onClick={handleClick}>
         {user.displayName}
       </Button>
       <Menu open={isOpen} onClose={handleClose} anchorEl={anchorEl} keepMounted>

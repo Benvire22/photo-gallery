@@ -42,8 +42,20 @@ const run = async () => {
     image: 'fixtures/snake-pic.jpg',
   }, {
     user: admin,
-    title: 'MORE CATS',
+    title: 'MORE CATS!',
     image: 'fixtures/cat-pic.jpg',
+  }, {
+    user: user,
+    title: 'Stop cat posting, look at that doggie!',
+    image: 'fixtures/dog-pic.jpg',
+  }, {
+    user: admin,
+    title: `It's a me, deb.`,
+    image: 'fixtures/viskasha.png',
+  }, {
+    user: admin,
+    title: `У меня в полисаднике пионы растут.`,
+    image: 'fixtures/pion.jpg',
   });
 
   await db.close();
