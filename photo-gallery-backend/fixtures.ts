@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import config from './config';
 import User from './models/User';
+import Photo from './models/Photo';
 
 const run = async () => {
   await mongoose.connect(config.database);
@@ -13,7 +14,7 @@ const run = async () => {
     console.log('Error dropping database:', e);
   }
 
-  await User.create({
+  const [user, admin] = await User.create({
     email: 'user@email.com',
     password: '123WWW',
     displayName: 'Grisha',
@@ -25,6 +26,24 @@ const run = async () => {
     displayName: 'Administrator',
     token: crypto.randomUUID(),
     role: 'admin',
+  });
+
+  await Photo.create({
+    user: admin,
+    title: 'adminpic',
+    image: 'fixtures/admin-avatar.jpg',
+  }, {
+    user: user,
+    title: 'Userpic',
+    image: 'fixtures/admin-avatar.jpg',
+  }, {
+    user: user,
+    title: 'userPic2',
+    image: 'fixtures/admin-avatar.jpg',
+  }, {
+    user: admin,
+    title: 'adminpic2',
+    image: 'fixtures/admin-avatar.jpg',
   });
 
   await db.close();

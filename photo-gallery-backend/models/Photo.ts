@@ -25,11 +25,6 @@ const PhotoSchema = new Schema<IPhoto, PhotoModel>({
     required: true,
     type: String,
   },
-  isPublished: {
-    required: true,
-    type: Boolean,
-    default: false,
-  },
 });
 
 const Photo = mongoose.model<IPhoto, PhotoModel>('Photo', PhotoSchema);

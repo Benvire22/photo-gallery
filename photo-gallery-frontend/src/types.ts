@@ -7,7 +7,6 @@ export interface Photo {
   };
   title: string;
   image: string;
-  isPublished: boolean;
 }
 
 export interface PhotoMutation {

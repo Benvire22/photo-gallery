@@ -24,15 +24,11 @@ interface Props {
   isOpen: boolean;
   photo: Photo | null;
   onClose: () => void;
-  onOpen: () => void;
 }
 
-const ImageModal: React.FC<Props> = ({isOpen, photo, onClose, onOpen}) => {
+const ImageModal: React.FC<Props> = ({isOpen, photo, onClose}) => {
   return (
     <>
-      <Button variant="outlined" onClick={onOpen}>
-        Open dialog
-      </Button>
       <BootstrapDialog
         onClose={onClose}
         aria-labelledby="customized-dialog-title"
@@ -55,11 +51,11 @@ const ImageModal: React.FC<Props> = ({isOpen, photo, onClose, onOpen}) => {
         </IconButton>
         <DialogContent dividers>
           <Grid container spacing={2}>
-            <img height="300px" width="auto" src={`${API_URL}/${photo?.image}`} alt={photo?.title} />
+            <img height="550px" width="auto" src={`${API_URL}/${photo?.image}`} alt={photo?.title} />
           </Grid>
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={onClose}>
+        <DialogActions >
+          <Button onClick={onClose}>
             close X
           </Button>
         </DialogActions>

@@ -1,6 +1,6 @@
 import { GlobalError, Photo } from '../../types';
 import { createSlice } from '@reduxjs/toolkit';
-import { createPhoto, deletePhoto, fetchPhotos, togglePublished } from './galleryThunks';
+import { createPhoto, deletePhoto, fetchPhotos } from './galleryThunks';
 
 export interface GalleryState {
   photos: Photo[];
@@ -8,7 +8,6 @@ export interface GalleryState {
   errorFetchingPhotos: boolean;
   isCreating: boolean;
   errorCreating: null | GlobalError;
-  isPublishing: boolean;
   isDeleting: boolean;
 }
 
@@ -18,7 +17,6 @@ export const initialState: GalleryState = {
   errorFetchingPhotos: false,
   isCreating: false,
   errorCreating: null,
-  isPublishing: false,
   isDeleting: false,
 };
 
@@ -55,17 +53,6 @@ export const gallerySlice = createSlice({
       });
 
     builder
-      .addCase(togglePublished.pending, (state) => {
-        state.isPublishing = true;
-      })
-      .addCase(togglePublished.fulfilled, (state) => {
-        state.isPublishing = false;
-      })
-      .addCase(togglePublished.rejected, (state) => {
-        state.isPublishing = false;
-      });
-
-    builder
       .addCase(deletePhoto.pending, (state) => {
         state.isDeleting = true;
       })
@@ -82,7 +69,6 @@ export const gallerySlice = createSlice({
     selectErrorFetchingPhotos: (state) => state.errorFetchingPhotos,
     selectCreatingPhoto: (state) => state.isCreating,
     selectErrorCreatingPhoto: (state) => state.errorCreating,
-    selectPublishingPhoto: (state) => state.isPublishing,
     selectDeletingPhoto: (state) => state.isDeleting,
   },
 });
@@ -95,6 +81,5 @@ export const {
   selectErrorFetchingPhotos,
   selectCreatingPhoto,
   selectErrorCreatingPhoto,
-  selectPublishingPhoto,
   selectDeletingPhoto,
 } = gallerySlice.selectors;

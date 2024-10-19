@@ -27,19 +27,10 @@ export const createPhoto = createAsyncThunk<void, PhotoMutation, {
 
     await axiosApi.post(`/photos/`, formData);
   } catch (e) {
-    if (isAxiosError(e) && e.response && e.response.status === 400) {
+    if (isAxiosError(e) && e.response && e.response.status === 401) {
       return rejectWithValue(e.response.data);
     }
 
-    throw e;
-  }
-});
-
-export const togglePublished = createAsyncThunk<void, string>('gallery/togglePublished', async (photoId) => {
-  try {
-    await axiosApi.patch(`/photos/${photoId}/togglePublished`);
-  } catch (e) {
-    console.error(e);
     throw e;
   }
 });

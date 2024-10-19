@@ -57,35 +57,17 @@ const Gallery = () => {
       </Grid>
     );
   } else if (photos.length > 0) {
-    content = photos.map((photo) => {
-      if (photo.isPublished || photo.user._id === userId) {
-        return (
-          <PhotoItem
-            key={photo._id}
-            id={photo._id}
-            title={photo.title}
-            image={photo.image}
-            isPublished={photo.isPublished}
-            author={photo.user}
-            showPhoto={() => showPhoto(photo)}
-            user={user}
-          />
-        );
-      } else if (user?.role === 'admin') {
-        return (
-          <PhotoItem
-            key={photo._id}
-            id={photo._id}
-            title={photo.title}
-            image={photo.image}
-            isPublished={photo.isPublished}
-            author={photo.user}
-            showPhoto={() => showPhoto(photo)}
-            user={user}
-          />
-        );
-      }
-    });
+    content = photos.map((photo) => (
+      <PhotoItem
+        key={photo._id}
+        id={photo._id}
+        title={photo.title}
+        image={photo.image}
+        author={photo.user}
+        showPhoto={() => showPhoto(photo)}
+        user={user}
+      />
+    ));
   }
 
   return (
@@ -103,11 +85,11 @@ const Gallery = () => {
             )}
           </Grid>
         </Grid>
-        <Grid container spacing={5} justifyContent="center">
+        <Grid container spacing={5}>
           {content}
         </Grid>
       </Grid>
-      <ImageModal isOpen={openModal} photo={photo} onClose={handleClose} onOpen={handelOpen} />
+      <ImageModal isOpen={openModal} photo={photo} onClose={handleClose} />
     </>
   );
 };

@@ -13,7 +13,6 @@ export interface IPhoto {
   user: mongoose.Types.ObjectId | string;
   title: string;
   image: string;
-  isPublished: boolean;
 }
 
 export type PhotoModel = Model<IPhoto>;
